@@ -60,9 +60,9 @@ module.exports = {
         }
     },
     items: async (args, req) => {
-        // if (!req.isAuth) {
-        //     throw new Error('Unauthenticated');
-        // }
+        if (!req.isAuth) {
+            throw new Error('Unauthenticated');
+        }
         try {
             const items = await Items.find();
             return items.map(item => {
@@ -80,9 +80,9 @@ module.exports = {
         }
     },
     cartItems: async (args, req) => {
-        // if (!req.isAuth) {
-        //     throw new Error('Unauthenticated');
-        // }
+        if (!req.isAuth) {
+            throw new Error('Unauthenticated');
+        }
         try {
             const cart = await CartItems.find({ user: req.userId });
             return cart.map(item => {
@@ -97,6 +97,9 @@ module.exports = {
         }
     },
     addToCart: async (args, req) => {
+        if (!req.isAuth) {
+            throw new Error('Unauthenticated');
+        }
         try {
             const cart = await CartItems.findOne({ user: req.userId, item: args.itemId });
             const itemDetails = await Items.findOne({ _id: args.itemId });
@@ -131,6 +134,9 @@ module.exports = {
         }
     },
     categories: async (args, req) => {
+        if (!req.isAuth) {
+            throw new Error('Unauthenticated');
+        }
         try {
             const category = await Category.find();
             return category;
@@ -141,6 +147,9 @@ module.exports = {
     }
     ,
     removeFromCart: async (args, req) => {
+        if (!req.isAuth) {
+            throw new Error('Unauthenticated');
+        }
         try {
             const cartItem = await CartItems.findOne({ user: req.userId, item: args.itemId });
             const itemDetails = await Items.findOne({ _id: args.itemId });
